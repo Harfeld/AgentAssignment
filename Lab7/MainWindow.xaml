@@ -3,81 +3,88 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:opgave1"
+        xmlns:local="clr-namespace:opgave1"
         mc:Ignorable="d"
         Title="LollernLorteApp" Height="450" Width="800">
     <Window.DataContext>
-        <vm:MainWindowViewModel/>
+        <local:MainWindowViewModel/>
     </Window.DataContext>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="264*"></ColumnDefinition>
-            <ColumnDefinition Width="221*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Label Height="28" Margin="0,8,0,0" Name="label1" VerticalAlignment="Top" HorizontalAlignment="Left" >Id</Label>
-        <Label Height="28" Margin="0,37,0,0" Name="label2" VerticalAlignment="Top" HorizontalAlignment="Left" >CodeName</Label>
-        <Label Height="28" Margin="0,72,0,0" Name="label3" VerticalAlignment="Top" HorizontalAlignment="Left" >Speciality</Label>
-        <Label Height="28" Margin="0,107,0,0" Name="label4" VerticalAlignment="Top" HorizontalAlignment="Left" >Assignment</Label>
-        <TextBox Height="23" 
-                 Margin="100,10,0,0" 
-                 Name="textBox1" 
-                 VerticalAlignment="Top" 
-                 HorizontalAlignment="Left" 
-                 Width="58"
-                 Text="{Binding Path=CurrentAgent.ID}"/>
-        <TextBox Height="23" 
-                 Margin="100,39,14,0" 
-                 Name="textBox2" 
-                 VerticalAlignment="Top"
-                 Text="{Binding Path=CurrentAgent.CodeName}"/>
-        <TextBox Height="23" 
-                 Margin="100,72,14,0" 
-                 Name="textBox3" 
-                 VerticalAlignment="Top" 
-                 Text="{Binding Path=CurrentAgent.Specialty}"/>
-        <TextBox Margin="100,109,14,0" 
-                 Name="textBox4" 
-                 Height="82" 
-                 AcceptsReturn="True"
-                 TextWrapping="Wrap"
-                 VerticalAlignment="Top"
-                 Text="{Binding Path=CurrentAgent.Assignment}"/>
-        <ListBox Grid.Column="1"
-                 Name="lbxAgents"
-                 HorizontalAlignment="Left" 
-                 Height="399" 
-                 Margin="10,10,0,0" 
-                 VerticalAlignment="Top" 
-                 Width="341"
-                 ItemsSource="{Binding Path=Agents}"
-                 DisplayMemberPath="CodeName"
-                 IsSynchronizedWithCurrentItem="True"/>
-        <Button Height="23" 
-                Margin="100,212,0,0" 
-                VerticalAlignment="Top" 
-                HorizontalAlignment="Left"
-                x:Name="btnBack" 
-                Content="&lt;" 
-                Width="75"
-                Click="BtnBack_Click"
-                />
-        <Button Height="23" 
-                Margin="185,212,0,0" 
-                VerticalAlignment="Top" 
-                HorizontalAlignment="Left"
-                x:Name="btnForward"  
-                Width="75"
-                Content="&gt;" 
-                Click="BtnForward_Click"
-                />
-        <Button Height="23" 
-                Margin="100,251,0,0" 
-                VerticalAlignment="Top" 
-                HorizontalAlignment="Left"
-                Width="75"
-                x:Name="btnAddNew" 
-                Content="Add New" 
-                Click="BtnAddNew_Click"
-                />
-    </Grid>
+    <DockPanel Name="dockPanelMain">
+        <Menu Name="mainMenu" DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="E_xit" Command="{Binding CloseAppCommand}"/>
+            </MenuItem>
+            <MenuItem Header="_Agents">
+                <MenuItem Header="_Previous" Command="{Binding PreviusCommand}"/>
+                <MenuItem Header="_Next" Command="{Binding NextCommand}"/>
+                <MenuItem Header="_Add new" Command="{Binding Path=AddAgentCommand}"/>
+                <MenuItem Header="_Delete" Command="{Binding Path=DeleteAgentCommand}"/>
+            </MenuItem>
+        </Menu>
+        <ToolBar DockPanel.Dock="Top" Height="auto"
+                 FontSize="20" FontWeight="Bold"
+                 Background="AliceBlue">
+
+            <Button Height="auto" 
+                    ToolTip="Move to previous agent"
+                    Content="&lt;"
+                    Command="{Binding Path=PreviusCommand}"
+                    />
+            <Button Height="auto"  
+                    ToolTip="Move to next agent"
+                    Content="&gt;"
+                    Command="{Binding Path=NextCommand}"
+                    />
+            <Button ToolTip="Add a new agent"
+                    Content="+"
+                    Command="{Binding Path=AddAgentCommand}"
+                    />
+            <Button ToolTip="Delete selected agent"
+                    Content="-"
+                    Command="{Binding Path=DeleteAgentCommand}"
+                    />
+        </ToolBar>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="264*"></ColumnDefinition>
+                <ColumnDefinition Width="221*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Height="28" Margin="0,8,0,0" Name="label1" VerticalAlignment="Top" HorizontalAlignment="Left" >Id</Label>
+            <Label Height="28" Margin="0,37,0,0" Name="label2" VerticalAlignment="Top" HorizontalAlignment="Left" >CodeName</Label>
+            <Label Height="28" Margin="0,72,0,0" Name="label3" VerticalAlignment="Top" HorizontalAlignment="Left" >Speciality</Label>
+            <Label Height="28" Margin="0,107,0,0" Name="label4" VerticalAlignment="Top" HorizontalAlignment="Left" >Assignment</Label>
+            <TextBox Height="23" 
+                     Margin="100,10,0,0" 
+                     Name="textBox1" 
+                     VerticalAlignment="Top" 
+                     HorizontalAlignment="Left" 
+                     Width="58"
+                     Text="{Binding Path=CurrentAgent.ID}"/>
+            <TextBox Height="23" 
+                     Margin="100,39,14,0" 
+                     Name="textBox2" 
+                     VerticalAlignment="Top"
+                     Text="{Binding Path=CurrentAgent.CodeName}"/>
+            <TextBox Height="23" 
+                     Margin="100,72,14,0" 
+                     Name="textBox3" 
+                     VerticalAlignment="Top" 
+                     Text="{Binding Path=CurrentAgent.Specialty}"/>
+            <TextBox Margin="100,109,14,0" 
+                     Name="textBox4" 
+                     Height="82" 
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     VerticalAlignment="Top"
+                     Text="{Binding Path=CurrentAgent.Assignment}"/>
+            <ListBox ItemsSource="{Binding Path=Agents}"
+                     SelectedItem="{Binding Path=CurrentAgent}"
+                     SelectedIndex="{Binding Path=CurrentIndex}"
+                     IsSynchronizedWithCurrentItem="True"
+                     DisplayMemberPath="CodeName"
+                     Name="lbxAgents"
+                     Grid.Column="2"
+                     Margin="9,9,8.6,8.6"/>
+        </Grid>
+    </DockPanel>
 </Window>
