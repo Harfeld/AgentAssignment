@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3358D69F-2592-466A-A3BB-74D389F7886E}</ProjectGuid>
+    <ProjectGuid>{9707DC27-4A7C-4BE6-B117-7E11621436E8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Lab7</RootNamespace>
-    <AssemblyName>Lab7</AssemblyName>
+    <RootNamespace>Lab8</RootNamespace>
+    <AssemblyName>Lab8</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -110,6 +110,22 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\add.gif" />
+    <Resource Include="Images\trashcan.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\delete.jpg" />
+    <Resource Include="Images\new.jpg" />
+    <Resource Include="Images\next.jpg" />
+    <Resource Include="Images\previous.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\delete.png" />
+    <Resource Include="Images\new.png" />
+    <Resource Include="Images\next.png" />
+    <Resource Include="Images\previous.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

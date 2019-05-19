@@ -1,17 +1,15 @@
-﻿using Lab7;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 using System.Xml.Serialization;
 
-namespace opgave1
+namespace Lab8
 {
     public class MainWindowViewModel : BindableBase
     {
@@ -56,7 +54,7 @@ namespace opgave1
                 }
             }
         }
-        
+
         int currentIndex = -1;
         public int CurrentIndex
         {
@@ -66,7 +64,7 @@ namespace opgave1
                 SetProperty(ref currentIndex, value);
             }
         }
-        
+
         public ObservableCollection<Agent> Agents
         {
             get { return agents; }
@@ -83,7 +81,7 @@ namespace opgave1
             {
                 return _PreviousCommand ??
                 (_PreviousCommand = new DelegateCommand(
-                    () => --CurrentIndex, 
+                    () => --CurrentIndex,
                     () => CurrentIndex > 0).ObservesProperty(() => CurrentIndex));
             }
         }
@@ -102,8 +100,9 @@ namespace opgave1
         ICommand _AddAgentCommand;
         public ICommand AddAgentCommand
         {
-            get {
-                return _AddAgentCommand ?? (_AddAgentCommand = new DelegateCommand(() => 
+            get
+            {
+                return _AddAgentCommand ?? (_AddAgentCommand = new DelegateCommand(() =>
                 {
                     Agents.Add(new Agent());
                     CurrentIndex = Agents.Count - 1;
@@ -112,14 +111,14 @@ namespace opgave1
         }
 
         ICommand _DeleteAgentCommand;
-        public ICommand DeleteAgentCommand => _DeleteAgentCommand ?? (_DeleteAgentCommand = 
+        public ICommand DeleteAgentCommand => _DeleteAgentCommand ?? (_DeleteAgentCommand =
             new DelegateCommand(
-                ()=>
+                () =>
                 {
                     Agents.RemoveAt(CurrentIndex);
                     RaisePropertyChanged("Count");
-                }, 
-                ()=>
+                },
+                () =>
                 {
                     if (Agents.Count > 0 && CurrentIndex >= 0)
                         return true;
@@ -195,7 +194,7 @@ namespace opgave1
         {
             get
             {
-                return _NewFileCommand ?? (_NewFileCommand = new DelegateCommand( () => 
+                return _NewFileCommand ?? (_NewFileCommand = new DelegateCommand(() =>
                 {
                     MessageBoxResult res = MessageBox.Show("Any unsaved data will be lost. Are you sure you want to initiate a new file?", "Warning",
                     MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
@@ -242,6 +241,38 @@ namespace opgave1
                     }));
             }
         }
+
+        #endregion
+
+        #region Color Commands
+
+        ICommand _ColorCommand;
+        public ICommand ColorCommand
+        {
+            get
+            {
+                return _ColorCommand ?? (_ColorCommand = new DelegateCommand<String>(
+                        (String colorStr) =>
+                        {
+                            SolidColorBrush newBrush = SystemColors.WindowBrush; // Default color
+
+                            try
+                            {
+                                if (colorStr != null)
+                                {
+                                    if (colorStr != "Default")
+                                        newBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorStr));
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                MessageBox.Show("Unknown color name, default color is used", "Program error!");
+                            }
+
+                            Application.Current.Resources["xmlBrush"] = newBrush;
+                        }));
+            }
+        }  
 
         #endregion
     }

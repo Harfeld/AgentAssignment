@@ -1,14 +1,27 @@
-﻿<Window x:Class="opgave1.MainWindow"
+﻿<Window x:Class="Lab8.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:opgave1"
+        xmlns:local="clr-namespace:Lab8"
         mc:Ignorable="d"
-        Title="LollernLorteApp" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        Background="{DynamicResource ResourceKey=xmlBrush}"
+        >
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="ForegroundBrush" Color="Blue"/>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+        </Style>
+    </Window.Resources>
+
     <DockPanel Name="dockPanelMain">
         <Menu Name="mainMenu" DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -24,6 +37,12 @@
                 <MenuItem Header="_Add new" Command="{Binding Path=AddAgentCommand}"/>
                 <MenuItem Header="_Delete" Command="{Binding Path=DeleteAgentCommand}"/>
             </MenuItem>
+            <MenuItem Header="_Color">
+                <MenuItem Header="_Red" Command="{Binding ColorCommand}" CommandParameter="Red"/>
+                <MenuItem Header="_Yellow" Command="{Binding ColorCommand}" CommandParameter="Yellow"/>
+                <MenuItem Header="_Green" Command="{Binding ColorCommand}" CommandParameter="Green"/>
+                <MenuItem Header="_Default" Command="{Binding ColorCommand}" CommandParameter="Wheat"/>
+            </MenuItem>
         </Menu>
         <ToolBar DockPanel.Dock="Top" Height="auto"
                  FontSize="20" FontWeight="Bold"
@@ -31,22 +50,32 @@
 
             <Button Height="auto" 
                     ToolTip="Move to previous agent"
-                    Content="&lt;"
                     Command="{Binding Path=PreviusCommand}"
-                    />
+                    Style="{StaticResource ResourceKey=BottonToolbarStyle}"
+                    >
+                <Image Source="Images/previous.jpg"/>
+            </Button>
             <Button Height="auto"  
                     ToolTip="Move to next agent"
-                    Content="&gt;"
                     Command="{Binding Path=NextCommand}"
-                    />
-            <Button ToolTip="Add a new agent"
-                    Content="+"
+                    Style="{StaticResource ResourceKey=BottonToolbarStyle}"
+                    >
+                <Image Source="Images/next.jpg"/>
+            </Button>
+            <Button Height="auto"
+                    ToolTip="Add a new agent"
                     Command="{Binding Path=AddAgentCommand}"
-                    />
-            <Button ToolTip="Delete selected agent"
-                    Content="-"
+                    Style="{StaticResource ResourceKey=BottonToolbarStyle}"
+                    >
+                <Image Source="Images/new.png"/>
+            </Button>
+            <Button Height="auto"
+                    ToolTip="Delete selected agent"
                     Command="{Binding Path=DeleteAgentCommand}"
-                    />
+                    Style="{StaticResource ResourceKey=BottonToolbarStyle}"
+                    >
+                <Image Source="Images/delete.png"/>
+            </Button>
             <Label FontSize="14" 
                    FontWeight="Medium" 
                    VerticalAlignment="Bottom"
@@ -67,7 +96,7 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="4,0" Text="{Binding Path=Clock.Date}"/>
                     <TextBlock Margin="4,0" Text="{Binding Path=Clock.Time}"/>
-                 </StackPanel>
+                </StackPanel>
             </StatusBarItem>
         </StatusBar>
         <Grid>
@@ -85,24 +114,29 @@
                      VerticalAlignment="Top" 
                      HorizontalAlignment="Left" 
                      Width="58"
-                     Text="{Binding Path=CurrentAgent.ID}"/>
+                     Text="{Binding Path=CurrentAgent.ID}"
+                     Style="{StaticResource JamesStyle}"            
+                     />
             <TextBox Height="23" 
                      Margin="100,39,14,0" 
                      Name="textBox2" 
                      VerticalAlignment="Top"
-                     Text="{Binding Path=CurrentAgent.CodeName}"/>
+                     Text="{Binding Path=CurrentAgent.CodeName}"
+                     Style="{StaticResource TextBoxStyle}"/>
             <TextBox Height="23" 
                      Margin="100,72,14,0" 
                      Name="textBox3" 
                      VerticalAlignment="Top" 
-                     Text="{Binding Path=CurrentAgent.Specialty}"/>
+                     Text="{Binding Path=CurrentAgent.Specialty}"
+                     Style="{StaticResource TextBoxStyle}"/>
             <TextBox Margin="100,109,14,0" 
                      Name="textBox4" 
                      Height="82" 
                      AcceptsReturn="True"
                      TextWrapping="Wrap"
                      VerticalAlignment="Top"
-                     Text="{Binding Path=CurrentAgent.Assignment}"/>
+                     Text="{Binding Path=CurrentAgent.Assignment}"
+                     Style="{StaticResource TextBoxStyle}"/>
             <ListBox ItemsSource="{Binding Path=Agents}"
                      SelectedItem="{Binding Path=CurrentAgent}"
                      SelectedIndex="{Binding Path=CurrentIndex}"
@@ -111,6 +145,6 @@
                      Name="lbxAgents"
                      Grid.Column="2"
                      Margin="9,9,8.6,8.6"/>
-        </Grid>        
+        </Grid>
     </DockPanel>
 </Window>
